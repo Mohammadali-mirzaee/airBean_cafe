@@ -1,0 +1,68 @@
+$dark: #252C32;
+$brown: #5B4644;
+$coffee: #87624F;
+$tan: #DAB7A3;
+$white: #F4E8DA;
+$water: #859FB5;
+.cart{
+    height: 90%;
+    width: 90%;
+    background: #FFFFFF;
+     position: fixed;
+     top: 50px;
+     margin: 20px;
+}
+.titel{
+    text-align: center;
+}
+.cartItem{
+    display: flex;
+     flex-direction: row;
+     width: 100%;
+     justify-content: space-between;
+     align-items: center;
+     row-gap: 20px;
+}
+.total{
+     display: flex;
+     flex-direction: row;
+     justify-content: space-between;
+     margin: 10px;
+}
+.produkt{
+     margin-left: 10px;
+     line-height: 2px;
+}
+.tackeBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100%;
+}
+.btn{
+    line-height: 0;
+    height: auto;
+    margin-right: 10px;
+}
+.arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+}
+.up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+button{
+    background:$dark;
+    color: #fff;
+    height: 50px;
+    width: 70%;
+    border: none;
+    border-radius: 2rem;
+}

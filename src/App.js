@@ -6,16 +6,19 @@ import Menu from './views/Menu';
 import About from './views/About';
 import Login from './views/Login';
 import Register from './views/Register';
+import Profile from './views/Profile';
+import Cart from './views/Cart';
+import Status from './views/Status';
 import Navbar from './components/Navbar';
 
 function App() {
-  const [openNav, setOpenNav] = useState(false);
+  /*  const [openNav, setOpenNav] = useState(false);
   function navOpen() {
     setOpenNav(!openNav);
-  }
+  } */
   return (
     <div className="App">
-      {openNav && <Navbar />}
+      {/*  {openNav && <Navbar />}
       <svg
         onClick={navOpen}
         className="navicon"
@@ -29,7 +32,8 @@ function App() {
         <rect x="11" y="14" width="26" height="2" rx="1" fill="#222222" />
         <rect x="11" y="23" width="26" height="2" rx="1" fill="#222222" />
         <rect x="11" y="32" width="26" height="2" rx="1" fill="#222222" />
-      </svg>
+      </svg> */}
+
       <header className="App-header">
         {/*  {setOpenNav && <Navbar />} */}
         {/*  <Menu /> */}
@@ -38,6 +42,9 @@ function App() {
           <Route path="/about" component={About} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/profile" component={Profile} />
+          <Route path="/cart" component={Cart} />
+          <Route path="/status" component={Status} />
         </Switch>
         {/* <CoffeeComponent /> */}
       </header>

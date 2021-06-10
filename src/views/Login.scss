@@ -10,21 +10,22 @@ $orange:#E5674E;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh;
+    height: 100%;
     text-align: center;
     margin: 10px;
 }
 .form{
-    margin: 10px;
+     margin: 10px;
      display: flex;
      flex-direction: column;
      text-align: left;
      justify-content: center;
+     margin-top: 20%;
      
      }
 
 .loginBtn{
-    margin-top: 85%;
+     margin-top: 60%;
     width:60% ;
     height: 40px;
     border-radius: 2rem;
@@ -36,9 +37,14 @@ $orange:#E5674E;
      display: flex;
      justify-content: center;
      align-items: center;
+     flex-direction: column;
 }
 .input{
     height: 40px;
     background-color: $pink;
     border-radius: 0.3rem;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+.titleLogin{
+    font-weight: 700;
 }

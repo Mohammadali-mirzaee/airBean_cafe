@@ -47,6 +47,9 @@ function Navbar() {
                 <Link onClick={changlik} className="a" to="/login">
                   Login
                 </Link>
+                <Link onClick={changlik} className="a" to="/profile">
+                  Profile
+                </Link>
               </li>
             </ul>
           </div>

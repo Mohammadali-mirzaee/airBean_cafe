@@ -1,0 +1,45 @@
+$dark: #252C32;
+$brown: #2F2926;
+$coffee: #87624F;
+$tan: #DAB7A3;
+$white: #F4E8DA;
+$water: #859FB5;
+$pink :#F3E4E1;
+
+body{
+    
+}
+.menu{
+    background:$pink;
+    width: 100%;
+     
+}
+.cartIcon{
+    float: right;
+    margin: 0;
+    padding: 0;
+}
+.addBtn{
+width: 25px;
+height: 25px;
+background: $brown;
+}
+.menuTable{
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   height: 100vh;
+}
+td{
+    line-height: 5px;
+    padding: 8px;
+    color: $brown;
+}
+p{
+    font-size: 15px;
+    font-weight: lighter;
+}
+.menuTitle{
+    font-size: 35px;
+}

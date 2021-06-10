@@ -1,24 +1,8 @@
-/* export function fetchMenu(data) {
-  fetch('http://localhost:5000/api/coffee', {
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      menu: { data },
-    }),
-  });
-  return {
-    type: 'SET-MENU',
-    payload: {
-      menu: { data },
-    },
-  };
-} */
+export const FETCH_MENUE_CFAE = 'FETCH_MENUE_CFAE';
 export const setMenu = (menu) => {
   console.log(menu);
   return {
-    type: 'SET_MENU',
+    type: 'FETCH_MENUE_CFAE',
     payload: menu,
   };
 };
