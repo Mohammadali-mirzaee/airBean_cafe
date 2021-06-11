@@ -1,5 +1,7 @@
 import './Status.scss';
+import { useHistory } from 'react-router-dom';
 function Status() {
+  const history = useHistory();
   return (
     <div className="status">
       <div className="statusKaffe">
@@ -136,7 +138,14 @@ function Status() {
         </h1>
         <h3>12 Minuter</h3>
 
-        <button className="coolBtn">Ok, cool</button>
+        <button
+          onClick={() => {
+            history.push('/menu');
+          }}
+          className="coolBtn"
+        >
+          Ok, cool
+        </button>
       </div>
     </div>
   );

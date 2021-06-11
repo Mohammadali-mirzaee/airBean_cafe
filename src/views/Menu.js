@@ -1,7 +1,8 @@
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch, connect } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { setMenu } from '../actions/cafeAction';
+import { setMenu, setCart } from '../actions/cafeAction';
+import actions from '../actions/cafeAction';
 import './Menu.scss';
 import Cart from './Cart';
 import Navbar from '../components/Navbar';
@@ -13,6 +14,10 @@ function Menu() {
     console.log(state.menu);
     return state.menu;
   });
+  /*  const cart = useSelector((state) => {
+    console.log(state.cart);
+    return state.cart;
+  }); */
 
   const [meny, setMeny] = useState([]);
   const [menuLoaded, setMenuLoaded] = useState(false);
@@ -40,9 +45,12 @@ function Menu() {
   function cartOpen() {
     setOpenCart(!openCart);
   }
-  function addToCart() {
-    console.log('hej');
+  /*   const [cafe, setCafe] = useState([]);
+   */ function addToCart(cart) {
+    console.log(cart);
+    dispatch(setCart(cart));
   }
+
   const history = useHistory();
 
   return (
@@ -135,12 +143,16 @@ function Menu() {
             return (
               <table key={index}>
                 <td>
-                  <button onClick={addToCart} className="addBtn" key={item.id}>
+                  <button
+                    onClick={() => addToCart(item)}
+                    className="addBtn"
+                    key={item.id}
+                  >
                     +
                   </button>
                 </td>
                 <td>
-                  <h1 className="titelItem"> {item.title}</h1>
+                  <h1 className="titelItem">{item.title}</h1>
                   <p>{item.desc}</p>
                 </td>
                 <td>
