@@ -52,6 +52,7 @@ function Menu() {
   }
 
   const history = useHistory();
+  const [countnum, setcountnum] = useState(0);
 
   return (
     <div className="menu">
@@ -71,6 +72,7 @@ function Menu() {
         <rect x="11" y="23" width="26" height="2" rx="1" fill="#222222" />
         <rect x="11" y="32" width="26" height="2" rx="1" fill="#222222" />
       </svg>
+
       <svg
         className="cartIcon"
         onClick={cartOpen}
@@ -84,8 +86,8 @@ function Menu() {
           <circle cx="46" cy="46" r="30" fill="#2F2926" />
         </g>
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M48.0486 38.0488V40.7723H43.9511V38.0488C43.9511 36.9173 44.8684 36 45.9999 36C47.1314 36 48.0486 36.9173 48.0486 38.0488ZM41.9511 38.0488C41.9511 35.8127 43.7638 34 45.9999 34C48.2359 34 50.0486 35.8127 50.0486 38.0488V40.7723V41.4227H51.5428C52.6103 41.4227 53.4897 42.2612 53.5405 43.3276L53.9978 52.9314C54.0521 54.0721 53.142 55.0266 52.0001 55.0266H40C38.8581 55.0266 37.948 54.0721 38.0023 52.9314L38.4596 43.3276C38.5104 42.2612 39.3898 41.4227 40.4574 41.4227H41.9511V40.7723V38.0488ZM40.4574 43.4227H51.5428L52.0001 53.0266H40L40.4574 43.4227Z"
           fill="white"
         />
@@ -97,9 +99,9 @@ function Menu() {
             width="92"
             height="92"
             filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
+            colorInterpolationFilters="sRGB"
           >
-            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
             <feColorMatrix
               in="SourceAlpha"
               type="matrix"
@@ -125,6 +127,7 @@ function Menu() {
           </filter>
         </defs>
       </svg>
+      <p className="numberChange">{countnum}</p>
 
       {/*  <button
         className="back"
@@ -144,7 +147,10 @@ function Menu() {
               <table key={index}>
                 <td>
                   <button
-                    onClick={() => addToCart(item)}
+                    onClick={() => {
+                      setcountnum(countnum + 1);
+                      addToCart(item);
+                    }}
                     className="addBtn"
                     key={item.id}
                   >

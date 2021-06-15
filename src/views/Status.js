@@ -1,12 +1,12 @@
 import './Status.scss';
 import { useHistory } from 'react-router-dom';
-function Status() {
+function Status(eta) {
   const history = useHistory();
   return (
     <div className="status">
       <div className="statusKaffe">
         <p>
-          Ordernummer <span>#123455ef</span>
+          Ordernummer <span>{eta}</span>
         </p>
         <svg
           width="217"

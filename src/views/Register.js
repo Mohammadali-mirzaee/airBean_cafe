@@ -1,33 +1,35 @@
+import './Register.scss';
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-function Regster(props) {
-  const [data, setdata] = useState({
-    Name: '',
-    Email: '',
-  });
-  const apiUrl = 'http://localhost:5000/api/accounts';
-  const Registration = (e) => {
-    e.preventDefault();
-    debugger;
-    const data1 = {
-      Name: data.Name,
-      Email: data.Email,
-    };
-    axios.post(apiUrl, data1).then((result) => {
-      debugger;
-      console.log(result.data);
-      if (result.data.Status == 'Invalid') alert('Invalid User');
-      else props.history.push('/Profile');
-    });
+function Register() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const handleNameChange = (event) => {
+    setName(event.target.value);
   };
-  const onChange = (e) => {
-    e.persist();
-    /*  debugger; */
-    setdata({ ...data, [e.target.name]: e.target.value });
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handelSubmit = (event) => {
+    /* console.log(`your sate value: name: ${name}
+                                  email:${email}`); */
+    fetch('http://localhost:5000/api/accounts', {
+      body: JSON.stringify({ email: email }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      type: 'cors',
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        alert('your are user now');
+      });
   };
   return (
-    <div class="container">
+    <div className="register">
       <Formik
         initialValues={{ email: '', name: '' }}
         validate={(values) => {
@@ -49,12 +51,24 @@ function Regster(props) {
         }}
       >
         {({ isSubmitting }) => (
-          <Form className="form">
+          <Form onSubmit={handelSubmit} className="formSign">
             Name
-            <Field className="input" type="name" name="name" />
+            <Field
+              className="inputSign"
+              type="name"
+              value={name}
+              name="name"
+              onChange={handleNameChange}
+            />
             <ErrorMessage name="name" component="div" />
             Email
-            <Field className="input" type="email" name="email" />
+            <Field
+              className="inputSign"
+              type="email"
+              value={email}
+              name="email"
+              onChange={handleEmailChange}
+            />
             <ErrorMessage name="email" component="div" />
             <div className="button">
               <button
@@ -62,9 +76,12 @@ function Regster(props) {
                 type="submit"
                 disabled={isSubmitting}
               >
-                Logga in
+                SignUp
               </button>
             </div>
+            <p>
+              Already registered <a href="/login">logga in?</a>
+            </p>
           </Form>
         )}
       </Formik>
@@ -72,4 +89,4 @@ function Regster(props) {
   );
 }
 
-export default Regster;
+export default Register;

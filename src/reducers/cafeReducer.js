@@ -1,8 +1,11 @@
 import { FETCH_MENUE_CFAE } from '../actions/cafeAction';
 import { ADD_TO_CART } from '../actions/cafeAction';
-const initState = {
+import { ADD_USER } from '../actions/cafeAction';
+/* import { INCREMENT_CAFE } from '../actions/cafeAction';
+ */ const initState = {
   menu: [],
   cartArray: [],
+  user: [],
 };
 export const cafeReducer = (state = initState, action) => {
   let cartARR = state.cartArray;
@@ -24,6 +27,16 @@ export const cafeReducer = (state = initState, action) => {
         cartARR: [...state.cartArray, action.payload],
       };
     }
+    /*  case INCREMENT_CAFE:
+      const cafe = state.find((c) => action.cartARR === c.itemCount);
+      return state; */
+    /*  case ADD_USER: {
+      return {
+        ...state,
+        user: [...state.user, action.payload],
+      };
+    } */
+
     default:
       return state;
   }
