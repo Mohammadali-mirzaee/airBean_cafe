@@ -1,14 +1,17 @@
 import { FETCH_MENUE_CFAE } from '../actions/cafeAction';
 import { ADD_TO_CART } from '../actions/cafeAction';
 import { ADD_USER } from '../actions/cafeAction';
+import { SET_ORDER } from '../actions/cafeAction';
 /* import { INCREMENT_CAFE } from '../actions/cafeAction';
  */ const initState = {
   menu: [],
   cartArray: [],
   user: [],
+  order: [],
 };
 export const cafeReducer = (state = initState, action) => {
   let cartARR = state.cartArray;
+  let order = state.order;
 
   /*  console.log(state.menu); */
   switch (action.type) {
@@ -25,6 +28,13 @@ export const cafeReducer = (state = initState, action) => {
       return {
         ...state,
         cartARR: [...state.cartArray, action.payload],
+      };
+    }
+    case SET_ORDER: {
+      order.push(action.payload);
+      return {
+        ...state,
+        order: [...state.order, action.payload],
       };
     }
     /*  case INCREMENT_CAFE:

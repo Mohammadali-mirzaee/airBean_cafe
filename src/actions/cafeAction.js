@@ -1,6 +1,7 @@
 export const FETCH_MENUE_CFAE = 'FETCH_MENUE_CFAE';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const INCREMENT_CAFE = 'INCREMENT_CAFE';
+export const SET_ORDER = 'SET_ORDER';
 /* export const ADD_USER = 'ADD_USER';
  */ export const setMenu = (menu) => {
   console.log(menu);
@@ -17,6 +18,14 @@ export const setCart = (cart) => {
     payload: cart,
   };
 };
+export const setOrder = (order) => {
+  console.log(order);
+
+  return {
+    type: 'SET_ORDER',
+    payload: order,
+  };
+};
 /* 
 export const increament = (cart) => {
   return {
@@ -31,4 +40,4 @@ export const increament = (cart) => {
   };
 }; */
 
-export default { setMenu, setCart /* setUser */ };
+export default { setMenu, setCart, setOrder /* setUser */ };

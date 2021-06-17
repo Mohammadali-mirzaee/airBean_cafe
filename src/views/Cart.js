@@ -3,13 +3,15 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import CafeOrder from '../components/CafeOrder';
-import cafeAction from '../actions/cafeAction';
+import { setOrder } from '../actions/cafeAction';
 import Status from './Status';
+import { orderPost } from './Orderapi';
 function Cart() {
   const addItem = useSelector((state) => {
     console.log(state.cartArray);
     return state.cartArray;
   });
+
   /*  console.log(
     useSelector((state) => {
       return state.cartArr;
@@ -17,8 +19,7 @@ function Cart() {
   ); */
   const dispatch = useDispatch();
   const [itemcount, setItemcount] = useState(1);
-  const [pricee, setPrice] = useState();
-  const [eta, setEta] = useState([]);
+  const [pricee, setPrice] = useState(1);
 
   const takeOrder = async () => {
     try {
@@ -33,24 +34,18 @@ function Cart() {
 
       const data = await response.json();
       console.log(data.order);
-      setEta(data.order.ETA);
-      /* const dataMapp = data.map((item) => {
-        return (
-          <div>
-            <p key={item.userID}>ETA:{item.ETA}</p>
-          </div>
-        );
+      dispatch(setOrder(data.order));
+      setOrder(() => {
+        return data.order;
       });
-      dataMapp(); */
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <div className="cart">
       {/*       <h2>{addItem.length}</h2>
-       */}{' '}
+       */}
       <div className="titel">
         <h1>Din beställning</h1>
       </div>
@@ -62,7 +57,10 @@ function Cart() {
                 {/*                 <CafeOrder cafe={item.title} price={item.price} />
                  */}{' '}
                 <p>{item.title}</p>
-                <p>{item.price}</p>
+                <p>
+                  {item.price * pricee}
+                  kr
+                </p>
               </div>
 
               <div className="btn">
@@ -71,7 +69,7 @@ function Cart() {
                     /* dispatch(cafeAction.increament(itemcount + 1)); */
 
                     setItemcount(itemcount + 1);
-                    setPrice(pricee);
+                    setPrice(pricee + 1);
                   }}
                   className="arrow up"
                 ></i>
@@ -95,12 +93,7 @@ function Cart() {
       })}
       <Link to="/status">
         <div className="tackeBtn">
-          <button onClick={takeOrder}>
-            Take My Money
-            {eta.map((etaItem, index) => {
-              return <Status eta={etaItem.ETA} key={index} />;
-            })}
-          </button>
+          <button onClick={takeOrder}>Take My Money </button>
         </div>
       </Link>
     </div>

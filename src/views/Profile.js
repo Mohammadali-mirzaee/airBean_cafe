@@ -1,11 +1,18 @@
 import './Profile.scss';
 import { useState } from 'react';
 import Navbar from '../components/Navbar';
+import { useSelector, useDispatch, connect } from 'react-redux';
+
 function Profile() {
   const [openNav, setOpenNav] = useState(false);
   function navOpen() {
     setOpenNav(!openNav);
   }
+  const orderhistorik = useSelector((state) => {
+    console.log(state.order);
+    return state.order;
+  });
+
   return (
     <div>
       {openNav && <Navbar />}

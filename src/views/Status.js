@@ -1,12 +1,26 @@
 import './Status.scss';
 import { useHistory } from 'react-router-dom';
-function Status(eta) {
+import { useState } from 'react';
+
+import { useSelector, useDispatch, connect } from 'react-redux';
+
+function Status() {
   const history = useHistory();
+  const orderStatus = useSelector((state) => {
+    return state.order;
+  });
+  console.log(orderStatus);
+
+  if (orderStatus[0]) {
+    console.log(orderStatus[0][orderStatus[0].length - 1].ETA);
+  }
+
   return (
     <div className="status">
       <div className="statusKaffe">
         <p>
-          Ordernummer <span>{eta}</span>
+          Ordernummer
+          <span>{orderStatus[0][orderStatus[0].length - 1].ordernummer}1</span>
         </p>
         <svg
           width="217"
@@ -136,11 +150,10 @@ function Status(eta) {
           Din beställning <br></br>
           är på väg
         </h1>
-        <h3>12 Minuter</h3>
-
+        <h3>{orderStatus[0][orderStatus[0].length - 1].ETA} Minuter</h3>
         <button
           onClick={() => {
-            history.push('/menu');
+            history.push('/profile');
           }}
           className="coolBtn"
         >
