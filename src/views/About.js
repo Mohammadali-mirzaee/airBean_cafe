@@ -1,11 +1,23 @@
 import './About.scss';
 import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
+import { useSelector, useDispatch, connect } from 'react-redux';
+
 function About() {
   const [openNav, setOpenNav] = useState(false);
   function navOpen() {
     setOpenNav(!openNav);
   }
+  const profile = useSelector((state) => {
+    console.log(state.user);
+    return state.user;
+  });
+
+  console.log(profile[0].user.length - 1);
+  const [name, setName] = useState();
+
+  setName(profile[0].user.length - 1);
+
   return (
     <div className="about">
       {openNav && <Navbar />}

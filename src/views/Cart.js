@@ -33,8 +33,8 @@ function Cart() {
       });
 
       const data = await response.json();
-      console.log(data.order);
-      dispatch(setOrder(data.order));
+      /*       console.log(data.order);
+       */ dispatch(setOrder(data.order));
       setOrder(() => {
         return data.order;
       });
@@ -85,7 +85,7 @@ function Cart() {
             <div className="total">
               <p>Total</p>
               <span>
-                <p>98 kr</p>
+                <p>{item.price * pricee}</p>
               </span>
             </div>
           </div>

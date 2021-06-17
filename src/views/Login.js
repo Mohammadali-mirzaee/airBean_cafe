@@ -1,11 +1,12 @@
 import './Login.scss';
 import { useHistory } from 'react-router-dom';
-
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import axios from 'axios';
+import { useSelector, useDispatch, connect } from 'react-redux';
+import { setUser } from '../actions/cafeAction';
 
 function Login() {
   const [openNav, setOpenNav] = useState(false);
@@ -21,6 +22,15 @@ function Login() {
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => {
+    console.log(state.user);
+    return state.user;
+  });
+
+  console.log(user);
+
   const history = useHistory();
   /*  fetch('http://localhost:5000/api/accounts')
       .then((response) => response.json())
@@ -52,7 +62,10 @@ function Login() {
       method: 'POST',
     })
       .then((response) => response.json())
+
       .then((result) => {
+        dispatch(setUser(result));
+
         if (result === 'Incorrect parameter') {
           console.log(result);
           setTimeout(() => {

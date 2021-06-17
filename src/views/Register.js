@@ -1,6 +1,9 @@
 import './Register.scss';
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useSelector, useDispatch, connect } from 'react-redux';
+import { setUser } from '../actions/cafeAction';
+
 function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -10,6 +13,12 @@ function Register() {
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => {
+    console.log(state.user);
+    return state.user;
+  });
 
   const handelSubmit = (event) => {
     /* console.log(`your sate value: name: ${name}
@@ -24,6 +33,7 @@ function Register() {
     })
       .then((response) => response.json())
       .then((data) => {
+        dispatch(setUser(data));
         console.log(data);
         alert('your are user now');
       });

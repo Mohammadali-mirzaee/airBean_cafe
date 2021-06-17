@@ -37,15 +37,16 @@ export const cafeReducer = (state = initState, action) => {
         order: [...state.order, action.payload],
       };
     }
+
     /*  case INCREMENT_CAFE:
       const cafe = state.find((c) => action.cartARR === c.itemCount);
       return state; */
-    /*  case ADD_USER: {
+    case ADD_USER: {
       return {
         ...state,
         user: [...state.user, action.payload],
       };
-    } */
+    }
 
     default:
       return state;

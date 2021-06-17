@@ -1,5 +1,5 @@
 import './Profile.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { useSelector, useDispatch, connect } from 'react-redux';
 
@@ -12,6 +12,30 @@ function Profile() {
     console.log(state.order);
     return state.order;
   });
+
+  const totalPrice = useSelector((state) => {
+    console.log(state.cartArray);
+    return state.cartArray;
+  });
+  console.log(totalPrice[0].price * 2);
+
+  if (orderhistorik[0]) {
+    console.log(orderhistorik[0][orderhistorik[0].length - 1]);
+  }
+  const [ordernm, setOrdernm] = useState();
+  const [ordertm, setOrdertime] = useState();
+  useEffect(() => {
+    console.log(orderhistorik);
+    if (orderhistorik.length > 0) {
+      setOrdernm(orderhistorik[0][orderhistorik[0].length - 1].ordernummer);
+    }
+  }, [orderhistorik]);
+  useEffect(() => {
+    console.log(orderhistorik);
+    if (orderhistorik.length > 0) {
+      setOrdertime(orderhistorik[0][orderhistorik[0].length - 1].ordertime);
+    }
+  }, [orderhistorik]);
 
   return (
     <div>
@@ -73,7 +97,7 @@ function Profile() {
         <div className="container">
           <div className="lefthis">
             <div className="left">
-              <p>#AB1123282323Z</p>
+              <p>{ordernm}</p>
               <p>Totalsumma</p>
             </div>
             <div className="left">
@@ -90,8 +114,8 @@ function Profile() {
           </div>
           <div className="righthis">
             <div className="right">
-              <p>20/03/06</p>
-              <p>233 kr</p>
+              <p>{ordertm}</p>
+              <p>{totalPrice[0].price * 2} kr</p>
             </div>
             <div className="right">
               <p>20/03/06</p>
