@@ -1,26 +1,26 @@
-$pink:#F3E4E1;
+$pink: #f3e4e1;
 
-.register{
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    background: $pink;
+.register {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background: $pink;
 }
-.formSign{
-     display: flex;
-     flex-direction: column;
-     text-align: left;
-     justify-content: center;
-     width: 90%;
+.formSign {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  justify-content: center;
+  width: 90%;
 }
-.inputSign{
-     height: 40px;
-     background-color: $pink;
-     border-radius: 0.3rem;
-     width: 100%;
-     border: 1px solid rgba(0, 0, 0, 0.5);
+.inputSign {
+  height: 40px;
+  background-color: $pink;
+  border-radius: 0.3rem;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.5);
 }

@@ -1,12 +1,10 @@
 import './Login.scss';
 import { useHistory } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import axios from 'axios';
-import { useSelector, useDispatch, connect } from 'react-redux';
-import { setUser } from '../actions/cafeAction';
+import { useSelector, useDispatch } from 'react-redux';
+import { addUser } from '../redux/cafeAction';
 
 function Login() {
   const [openNav, setOpenNav] = useState(false);
@@ -14,73 +12,46 @@ function Login() {
     setOpenNav(!openNav);
   }
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const handleNameChange = (event) => {
-    setName(event.target.value);
+  const [username, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  let [isLoggedIn, setIsLoggedIn] = useState(null);
+  let [loading, setLoading] = useState(false);
+
+  const handleUsername = (event) => {
+    setUserName(event.target.value);
   };
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+  const handlePassword = (event) => {
+    setPassword(event.target.value);
   };
   const dispatch = useDispatch();
-
-  const user = useSelector((state) => {
-    console.log(state.user);
-    return state.user;
-  });
-
-  console.log(user);
-
   const history = useHistory();
-  /*  fetch('http://localhost:5000/api/accounts')
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.getItem('name') === email && result.getItem('email'))
-          console.log(result);
-      }); */
 
-  /*  const data = { name: setName.name, email: setEmail.email };
-    axios.post(apiUrl, data).then((result) => {
-      console.log(result.data);
-      if (name === data.name && name === data.email) {
-        alert('your data is correct ');
-      } else {
-        alert('no');
-      }
-    }); */
-  const apiUrl = 'http://localhost:5000/api/accounts';
-  const loginSubmit = (event) => {
+  async function userLogin(event) {
     event.preventDefault();
-    console.log(`Your state values:
-                     name: ${name}
-                     email: ${email}`);
-    fetch('http://localhost:5000/api/accounts', {
-      body: JSON.stringify({ name: name, email: email }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    })
-      .then((response) => response.json())
-
-      .then((result) => {
-        dispatch(setUser(result));
-
-        if (result === 'Incorrect parameter') {
-          console.log(result);
-          setTimeout(() => {
-            alert('Incorrect email or password, please try again.');
-          }, 1000);
-        } else {
-          console.log(result);
-          setTimeout(() => {
-            alert('Congratulations, you have logged in!');
-          }, 1000);
-
-          history.push('/about');
-        }
-      });
-  };
+    setLoading(true);
+    try {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username, password: password }),
+      };
+      const response = await fetch(
+        'http://localhost:5000/api/login',
+        requestOptions
+      );
+      const data = await response.json();
+      dispatch(addUser(data));
+      setIsLoggedIn(data.loggedIn);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  }
+  useEffect(() => {
+    if (isLoggedIn) {
+      history.push('/profile');
+    }
+  }, [isLoggedIn, history]);
 
   return (
     <div>
@@ -129,18 +100,7 @@ function Login() {
             orderhistorik.
           </p>
           <Formik
-            initialValues={{ email: '', name: '' }}
-            validate={(values) => {
-              const errors = {};
-              if (!values.email) {
-                errors.email = 'Required';
-              } else if (
-                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-              ) {
-                errors.email = 'Invalid email address';
-              }
-              return errors;
-            }}
+            initialValues={{ username: '', password: '' }}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 alert(JSON.stringify(values, null, 2));
@@ -149,25 +109,24 @@ function Login() {
             }}
           >
             {({ isSubmitting }) => (
-              <Form onSubmit={loginSubmit} className="form">
+              <Form onSubmit={userLogin} className="form">
                 Name
                 <Field
                   className="input"
-                  value={name}
-                  onChange={handleNameChange}
+                  value={username}
+                  onChange={handleUsername}
                   type="name"
                   name="name"
                 />
                 <ErrorMessage name="name" component="div" />
-                Email
+                password
                 <Field
                   className="input"
-                  value={email}
-                  type="email"
-                  name="email"
-                  onChange={handleEmailChange}
+                  type="password"
+                  name="password"
+                  onChange={handlePassword}
                 />
-                <ErrorMessage name="email" component="div" />
+                <ErrorMessage name="password" component="div" />
                 <div className="button">
                   <button
                     className="loginBtn"
@@ -176,11 +135,14 @@ function Login() {
                   >
                     Logga in
                   </button>
-                  <Link to="/register">register</Link>
                 </div>
               </Form>
             )}
           </Formik>
+          {isLoggedIn === false && (
+            <p>Wrong username or password. Please try again.</p>
+          )}
+          {loading && <p>Your Logged in </p>}
         </div>
       </div>
     </div>

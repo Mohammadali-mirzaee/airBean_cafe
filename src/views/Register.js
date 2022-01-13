@@ -2,7 +2,7 @@ import './Register.scss';
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch, connect } from 'react-redux';
-import { setUser } from '../actions/cafeAction';
+import { setUser } from '../redux/cafeAction';
 
 function Register() {
   const [name, setName] = useState('');

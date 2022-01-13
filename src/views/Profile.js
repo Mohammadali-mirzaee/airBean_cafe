@@ -37,6 +37,8 @@ function Profile() {
     }
   }, [orderhistorik]);
 
+  
+
   return (
     <div>
       {openNav && <Navbar />}

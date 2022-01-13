@@ -1,83 +1,123 @@
 import './Cart.scss';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import CafeOrder from '../components/CafeOrder';
-import { setOrder } from '../actions/cafeAction';
-import Status from './Status';
-import { orderPost } from './Orderapi';
+import { useHistory } from 'react-router';
+
+import {
+  increment,
+  decrement,
+  removeItem,
+  emptyCart,
+  checkDiscount,
+} from '../redux/cafeAction';
+
 function Cart() {
-  const addItem = useSelector((state) => {
-    console.log(state.cartArray);
-    return state.cartArray;
+  const cart = useSelector((state) => {
+    return state.cart;
+  });
+  const cartTotal = useSelector((state) => {
+    return state.total;
   });
 
-  /*  console.log(
-    useSelector((state) => {
-      return state.cartArr;
-    })
-  ); */
+  const currentUser = useSelector((state) => {
+    return state.currentUser;
+  });
+
   const dispatch = useDispatch();
-  const [itemcount, setItemcount] = useState(1);
-  const [pricee, setPrice] = useState(1);
+  const history = useHistory();
 
-  const takeOrder = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/order', {
-        body: JSON.stringify(),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        type: 'cors',
-      });
+  const [cartLength, setCartLength] = useState(0);
+  const [orderArray, setOrderArray] = useState([]);
 
-      const data = await response.json();
-      /*       console.log(data.order);
-       */ dispatch(setOrder(data.order));
-      setOrder(() => {
-        return data.order;
-      });
-    } catch (error) {
-      console.log(error);
+  function increaseQty(id, quantity, price) {
+    dispatch(increment(id, quantity, price));
+  }
+
+  function decreaseQty(id, quantity, price) {
+    dispatch(decrement(id, quantity, price));
+  }
+
+  function deleteItem(id, quantity, price) {
+    dispatch(removeItem(id, quantity, price));
+  }
+
+  async function takeOrder() {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: orderArray,
+        userId: currentUser.userID,
+      }),
+    };
+    const response = await fetch(
+      'http://localhost:5000/api/order',
+      requestOptions
+    );
+    const data = await response.json();
+    console.log(data);
+
+    dispatch(emptyCart());
+    history.push('/status');
+  }
+  useEffect(() => {
+    function discountCheck() {
+      dispatch(checkDiscount());
     }
-  };
+    discountCheck();
+  }, [cartTotal, dispatch]);
+
+  useEffect(() => {
+    function getCartLength() {
+      let badge = 0;
+      for (let i = 0; i < cart.length; i++) {
+        badge = badge + cart[i].quantity;
+      }
+
+      setCartLength(badge);
+    }
+
+    getCartLength();
+  }, [cart, cartTotal]);
+
   return (
     <div className="cart">
-      {/*       <h2>{addItem.length}</h2>
-       */}
+      {cart.length === 0 && (
+        <p style={{ textAlign: 'center', fontSize: '0.8em' }}>
+          Go on. Treat yourself! 🙂
+        </p>
+      )}
       <div className="titel">
         <h1>Din beställning</h1>
       </div>
-      {addItem.map((item, index) => {
+      {cart.map((item) => {
         return (
           <div>
             <div className="cartItem">
-              <div key={index} className="produkt">
-                {/*                 <CafeOrder cafe={item.title} price={item.price} />
-                 */}{' '}
+              <div key={item.id} className="produkt">
                 <p>{item.title}</p>
                 <p>
-                  {item.price * pricee}
+                  {item.price}
                   kr
                 </p>
               </div>
+              <button
+                className="remove"
+                onClick={() => deleteItem(item.id, item.quantity, item.price)}
+              ></button>
 
               <div className="btn">
                 <i
-                  onClick={() => {
-                    /* dispatch(cafeAction.increament(itemcount + 1)); */
-
-                    setItemcount(itemcount + 1);
-                    setPrice(pricee + 1);
-                  }}
+                  onClick={() =>
+                    increaseQty(item.id, item.quantity, item.price)
+                  }
                   className="arrow up"
                 ></i>
-                <p>{itemcount}</p>
+                <p>{item.quantity}</p>
                 <i
-                  onClick={() => {
-                    setItemcount(itemcount - 1);
-                  }}
+                  onClick={() =>
+                    decreaseQty(item.id, item.quantity, item.price)
+                  }
                   className="arrow down"
                 ></i>
               </div>
@@ -85,17 +125,15 @@ function Cart() {
             <div className="total">
               <p>Total</p>
               <span>
-                <p>{item.price * pricee}</p>
+                <p>{cartTotal}</p>
               </span>
+              <div className="tackeBtn">
+                <button onClick={takeOrder}>Take My Money </button>
+              </div>
             </div>
           </div>
         );
       })}
-      <Link to="/status">
-        <div className="tackeBtn">
-          <button onClick={takeOrder}>Take My Money </button>
-        </div>
-      </Link>
     </div>
   );
 }

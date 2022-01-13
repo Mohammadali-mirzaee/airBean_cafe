@@ -24,20 +24,6 @@ getCoffee();
 }, []);
 
 
-/* axios.get('http://localhost:5000/api/coffee')
-.then((response) => {
-const coffee = response.data;
-console.log(response.data.menu );
-
-}); */
-/* const getPostsData = () => {
-fetch('http://localhost:5000/api/coffee')
-.then(response => response.json())
-.then(data => console.log(data))
-.catch(error => console.log(error));
-}
-
-getPostsData(); */
 
 
 return (
@@ -48,8 +34,6 @@ return (
 
   <article>
     <h2>Coffee</h2>
-  
-
   </article>
 
   <div class="container">

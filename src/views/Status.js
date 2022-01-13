@@ -9,7 +9,6 @@ function Status() {
   const orderStatus = useSelector((state) => {
     return state.order;
   });
-  /* console.log(orderStatus); */
 
   if (orderStatus[0]) {
     console.log(orderStatus[0][orderStatus[0].length - 1]);

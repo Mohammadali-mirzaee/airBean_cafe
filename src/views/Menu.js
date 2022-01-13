@@ -1,40 +1,32 @@
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch, connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { setMenu, setCart } from '../actions/cafeAction';
-import actions from '../actions/cafeAction';
+import { addToCart } from '../redux/cafeAction';
 import './Menu.scss';
 import Cart from './Cart';
 import Navbar from '../components/Navbar';
 function Menu() {
-  /*  console.log(props) */
-  const dispatch = useDispatch();
-
-  const menu = useSelector((state) => {
-    console.log(state.menu);
-    return state.menu;
-  });
-  /*  const cart = useSelector((state) => {
-    console.log(state.cart);
-    return state.cart;
-  }); */
-
-  const [meny, setMeny] = useState([]);
+  const [menu, setMenu] = useState(() => []);
   const [menuLoaded, setMenuLoaded] = useState(false);
 
+  function addItem(id, title, price, quantity) {
+    dispatch(addToCart(id, title, price, quantity));
+  }
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    (async () => {
-      setMenuLoaded(false);
-      let response = await fetch('http://localhost:5000/api/coffee');
-      let data = await response.json();
-      console.log(data.menu);
-      dispatch(setMenu(data.menu));
-      setMeny(data.menu);
-      setMenuLoaded(true);
-      setMenu(() => {
-        return data.menu;
-      });
-    })();
+    async function fetchMenu() {
+      try {
+        const response = await fetch('http://localhost:5000/api/coffee');
+        const data = await response.json();
+        setMenu(data);
+        setMenuLoaded(true);
+      } catch (error) {
+        setMenuLoaded(false);
+        console.log('is a heckin error');
+      }
+    }
+    fetchMenu();
   }, []);
 
   const [openNav, setOpenNav] = useState(false);
@@ -45,14 +37,6 @@ function Menu() {
   function cartOpen() {
     setOpenCart(!openCart);
   }
-  /*   const [cafe, setCafe] = useState([]);
-   */ function addToCart(cart) {
-    console.log(cart);
-    dispatch(setCart(cart));
-  }
-
-  const history = useHistory();
-  const [countnum, setcountnum] = useState(0);
 
   return (
     <div className="menu">
@@ -127,42 +111,30 @@ function Menu() {
           </filter>
         </defs>
       </svg>
-      <p className="numberChange">{countnum}</p>
-
-      {/*  <button
-        className="back"
-        onClick={() => {
-          history.push('/');
-        }}
-      >
-        &#8592;
-      </button> */}
 
       {menuLoaded ? (
         <section className="menuTable">
-          {/*  {meny.length} */}
           <h1 className="menuTitle">Meny</h1>
-          {meny.map((item, index) => {
+          {menu.map((menuItem) => {
             return (
-              <table key={index}>
+              <table key={menuItem.id}>
                 <td>
                   <button
-                    onClick={() => {
-                      setcountnum(countnum + 1);
-                      addToCart(item);
-                    }}
+                    onClick={() =>
+                      addItem(menuItem.id, menuItem.title, menuItem.price, 1)
+                    }
                     className="addBtn"
-                    key={item.id}
+                    key={menuItem.id}
                   >
                     +
                   </button>
                 </td>
                 <td>
-                  <h1 className="titelItem">{item.title}</h1>
-                  <p>{item.desc}</p>
+                  <h1 className="titelItem">{menuItem.title}</h1>
+                  <p>{menuItem.desc}</p>
                 </td>
                 <td>
-                  <h1>{item.price} kr</h1>
+                  <h1>{menuItem.price} kr</h1>
                 </td>
               </table>
             );
@@ -174,8 +146,5 @@ function Menu() {
     </div>
   );
 }
-/* export default connect((state) => ({
-  menu: state.menu.meu,
-}))(Menu); */
 
 export default Menu;

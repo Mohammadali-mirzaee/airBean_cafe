@@ -1,8 +1,9 @@
 import './nav.scss';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useState } from 'react';
 
-function Navbar() {
+function Navbar(props) {
+  const history = useHistory();
   const [closeNav, setClose] = useState(true);
   function navClose() {
     setClose(!closeNav);
@@ -35,7 +36,7 @@ function Navbar() {
             <ul>
               <li>
                 <Link onClick={changlik} className="a" to="/menu">
-                  Meny
+                  Menu
                 </Link>
               </li>
               <li>
@@ -44,11 +45,11 @@ function Navbar() {
                 </Link>
               </li>
               <li>
-                <Link onClick={changlik} className="a" to="/login">
-                  Login
-                </Link>
                 <Link onClick={changlik} className="a" to="/profile">
                   Profile
+                </Link>
+                <Link onClick={changlik} className="a" to="/profile">
+                  Order Status
                 </Link>
               </li>
             </ul>

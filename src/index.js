@@ -5,13 +5,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import { cafeReducer } from './reducers/cafeReducer';
+import { createStore } from 'redux';
+import { cafeReducer } from './redux/cafeReducer';
 const store = createStore(
   cafeReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  /*  applyMiddleware(thunk) */
 );
 ReactDOM.render(
   <React.StrictMode>
