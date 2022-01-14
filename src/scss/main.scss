@@ -1,29 +1,21 @@
 @import url('https://fonts.googleapis.com/css?family=Lato|Lora');
 
-$dark: #252C32;
-$brown: #5B4644;
-$coffee: #87624F;
-$tan: #DAB7A3;
-$white: #F4E8DA;
-$water: #859FB5;
+$dark: #252c32;
+$brown: #5b4644;
+$coffee: #87624f;
+$tan: #dab7a3;
+$white: #f4e8da;
+$water: #859fb5;
 
 $sans: 'Lato', sans-serif;
 $serif: 'Lora', serif;
-
-
 
 body {
   background: $tan;
   font-family: $sans;
   text-transform: uppercase;
-  
 }
 
 h3 {
-  
   letter-spacing: 1px;
-  
 }
-
-
-
