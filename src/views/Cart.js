@@ -1,53 +1,144 @@
 import './Cart.scss';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
+
+import {
+  increment,
+  decrement,
+  removeItem,
+  emptyCart,
+  checkDiscount,
+} from '../redux/cafeAction';
+
 function Cart() {
-  const addItem = useSelector((state) => {
-    console.log(state.cartArray);
-    return state.cartArray;
+  const cart = useSelector((state) => {
+    return state.cart;
   });
-  /*  console.log(
-    useSelector((state) => {
-      return state.cartArr;
-    })
-  ); */
+  const cartTotal = useSelector((state) => {
+    return state.total;
+  });
+
+  const discount = useSelector((state) => {
+    return state.discount;
+  });
+
+  const currentUser = useSelector((state) => {
+    return state.currentUser;
+  });
+
+  const dispatch = useDispatch();
+  const history = useNavigate();
+
+  const [cartLength, setCartLength] = useState(0);
+  const [orderArray, setOrderArray] = useState([]);
+
+  function increaseQty(id, quantity, price) {
+    dispatch(increment(id, quantity, price));
+  }
+
+  function decreaseQty(id, quantity, price) {
+    dispatch(decrement(id, quantity, price));
+  }
+
+  function deleteItem(id, quantity, price) {
+    dispatch(removeItem(id, quantity, price));
+  }
+
+  async function takeOrder() {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: orderArray,
+        userId: currentUser.userID,
+        discount: discount,
+      }),
+    };
+    const response = await fetch(
+      'http://localhost:5000/api/order',
+      requestOptions
+    );
+    const data = await response.json();
+    console.log(data);
+
+    dispatch(emptyCart());
+    history('/status');
+  }
+  useEffect(() => {
+    function discountCheck() {
+      dispatch(checkDiscount());
+    }
+    discountCheck();
+  }, [cartTotal, dispatch]);
+
+  useEffect(() => {
+    function getCartLength() {
+      let badge = 0;
+      for (let i = 0; i < cart.length; i++) {
+        badge = badge + cart[i].quantity;
+      }
+
+      setCartLength(badge);
+    }
+
+    getCartLength();
+  }, [cart, cartTotal]);
+
   return (
     <div className="cart">
-      {/*       <h2>{addItem.length}</h2>
-       */}{' '}
+      {cart.length === 0 && (
+        <p style={{ textAlign: 'center', fontSize: '0.8em' }}>
+          Go on. Treat yourself! 🙂
+        </p>
+      )}
       <div className="titel">
         <h1>Din beställning</h1>
       </div>
-      {addItem.map((item, index) => {
+      {cart.map((item) => {
         return (
           <div>
             <div className="cartItem">
-              <div key={index} className="produkt">
+              <div key={item.id} className="produkt">
                 <p>{item.title}</p>
-                <p>{item.price}</p>
+                <p>
+                  {item.price}
+                  kr
+                </p>
               </div>
+              <button
+                className="remove"
+                onClick={() => deleteItem(item.id, item.quantity, item.price)}
+              ></button>
 
               <div className="btn">
-                <i class="arrow up"></i>
-                <p>1</p>
-                <i class="arrow down"></i>
+                <i
+                  onClick={() =>
+                    increaseQty(item.id, item.quantity, item.price)
+                  }
+                  className="arrow up"
+                ></i>
+                <p>{item.quantity}</p>
+                <i
+                  onClick={() =>
+                    decreaseQty(item.id, item.quantity, item.price)
+                  }
+                  className="arrow down"
+                ></i>
               </div>
             </div>
             <div className="total">
               <p>Total</p>
               <span>
-                <p>98 kr</p>
+                <p>{cartTotal}</p>
               </span>
+              <div className="tackeBtn">
+                <button onClick={takeOrder}>Take My Money </button>
+              </div>
             </div>
           </div>
         );
       })}
-      <Link to="/status">
-        <div className="tackeBtn">
-          <button>Take My Money</button>
-        </div>
-      </Link>
     </div>
   );
 }

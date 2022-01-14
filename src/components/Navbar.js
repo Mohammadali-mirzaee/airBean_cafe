@@ -50,6 +50,9 @@ function Navbar() {
                 <Link onClick={changlik} className="a" to="/profile">
                   Profile
                 </Link>
+                <Link onClick={changlik} className="a" to="/status">
+                  Order Status
+                </Link>
               </li>
             </ul>
           </div>
