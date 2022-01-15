@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { addToCart } from '../redux/cafeAction';
 import './Menu.scss';
@@ -8,6 +8,9 @@ function Menu() {
   const [menu, setMenu] = useState(() => []);
   const [menuLoaded, setMenuLoaded] = useState(false);
 
+  const cart = useSelector((state) => {
+    return state.cart;
+  });
   function addItem(id, title, price, quantity) {
     dispatch(addToCart(id, title, price, quantity));
   }
@@ -55,7 +58,7 @@ function Menu() {
         <rect x="11" y="23" width="26" height="2" rx="1" fill="#222222" />
         <rect x="11" y="32" width="26" height="2" rx="1" fill="#222222" />
       </svg>
-
+      <p>{cart.length}</p>
       <svg
         className="cartIcon"
         onClick={cartOpen}
@@ -113,7 +116,7 @@ function Menu() {
 
       {menuLoaded ? (
         <section className="menuTable">
-          {menu.length}
+          {/* {menu.length} */}
           <h1 className="menuTitle">Meny</h1>
           {menu.map((menuItem) => {
             return (

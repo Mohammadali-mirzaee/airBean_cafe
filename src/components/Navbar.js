@@ -1,9 +1,8 @@
 import './nav.scss';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 function Navbar(props) {
-  const history = useHistory();
   const [closeNav, setClose] = useState(true);
   function navClose() {
     setClose(!closeNav);
