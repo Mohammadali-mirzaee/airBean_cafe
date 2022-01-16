@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import ArrowBackRounded from '@material-ui/icons/ArrowBackRounded';
-
 import { increment, decrement, emptyCart } from '../redux/cafeAction';
 
 function Cart() {
@@ -69,7 +68,7 @@ function Cart() {
 
         {cart.length === 0 && (
           <p style={{ textAlign: 'center', fontSize: '0.8em' }}>
-            Go on. Treat yourself! 🙂
+            Varokorg är Tom 🙂
           </p>
         )}
 
