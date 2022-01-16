@@ -1,15 +1,11 @@
-import './Cart.scss';
+import '../scss/Cart.scss';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
+import ArrowBackRounded from '@material-ui/icons/ArrowBackRounded';
 
-import {
-  increment,
-  decrement,
-  removeItem,
-  emptyCart,
-  checkDiscount,
-} from '../redux/cafeAction';
+import { increment, decrement, emptyCart } from '../redux/cafeAction';
 
 function Cart() {
   const cart = useSelector((state) => {
@@ -19,10 +15,6 @@ function Cart() {
     return state.total;
   });
 
-  const discount = useSelector((state) => {
-    return state.discount;
-  });
-
   const currentUser = useSelector((state) => {
     return state.currentUser;
   });
@@ -30,7 +22,6 @@ function Cart() {
   const dispatch = useDispatch();
   const history = useNavigate();
 
-  const [cartLength, setCartLength] = useState(0);
   const [orderArray, setOrderArray] = useState([]);
 
   function increaseQty(id, quantity, price) {
@@ -41,18 +32,14 @@ function Cart() {
     dispatch(decrement(id, quantity, price));
   }
 
-  function deleteItem(id, quantity, price) {
-    dispatch(removeItem(id, quantity, price));
-  }
-
   async function takeOrder() {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         id: orderArray,
+        price: cartTotal,
         userId: currentUser.userID,
-        discount: discount,
       }),
     };
     const response = await fetch(
@@ -65,80 +52,61 @@ function Cart() {
     dispatch(emptyCart());
     history('/status');
   }
-  useEffect(() => {
-    function discountCheck() {
-      dispatch(checkDiscount());
-    }
-    discountCheck();
-  }, [cartTotal, dispatch]);
-
-  useEffect(() => {
-    function getCartLength() {
-      let badge = 0;
-      for (let i = 0; i < cart.length; i++) {
-        badge = badge + cart[i].quantity;
-      }
-
-      setCartLength(badge);
-    }
-
-    getCartLength();
-  }, [cart, cartTotal]);
 
   return (
     <div className="cart">
-      {cart.length === 0 && (
-        <p style={{ textAlign: 'center', fontSize: '0.8em' }}>
-          Go on. Treat yourself! 🙂
-        </p>
-      )}
-      <div className="titel">
-        <h1>Din beställning</h1>
-      </div>
-      {cart.map((item) => {
-        return (
-          <div>
-            <div className="cartItem">
-              <div key={item.id} className="produkt">
-                <p>{item.title}</p>
-                <p>
-                  {item.price}
-                  kr
-                </p>
-              </div>
-              <button
-                className="remove"
-                onClick={() => deleteItem(item.id, item.quantity, item.price)}
-              ></button>
+      <div className="cart-article">
+        <Link to="/nav">
+          <ArrowBackRounded />
+        </Link>
 
-              <div className="btn">
-                <i
-                  onClick={() =>
-                    increaseQty(item.id, item.quantity, item.price)
-                  }
-                  className="arrow up"
-                ></i>
-                <p>{item.quantity}</p>
-                <i
-                  onClick={() =>
-                    decreaseQty(item.id, item.quantity, item.price)
-                  }
-                  className="arrow down"
-                ></i>
+        {cart.length === 0 && (
+          <p style={{ textAlign: 'center', fontSize: '0.8em' }}>
+            Go on. Treat yourself! 🙂
+          </p>
+        )}
+
+        <h1>Din beställning</h1>
+
+        {cart.map((item) => {
+          return (
+            <div>
+              <div className="cartItem">
+                <div key={item.id}>
+                  <p>{item.title}</p>
+                  <p>
+                    {item.price}
+                    kr
+                  </p>
+                </div>
+
+                <div className="quantity">
+                  <i
+                    onClick={() =>
+                      increaseQty(item.id, item.quantity, item.price)
+                    }
+                    className="arrow up"
+                  ></i>
+                  <p>{item.quantity}</p>
+                  <i
+                    onClick={() =>
+                      decreaseQty(item.id, item.quantity, item.price)
+                    }
+                    className="arrow down"
+                  ></i>
+                </div>
               </div>
             </div>
-            <div className="total">
-              <p>Total</p>
-              <span>
-                <p>{cartTotal}</p>
-              </span>
-              <div className="tackeBtn">
-                <button onClick={takeOrder}>Take My Money </button>
-              </div>
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
+        <div className="total">
+          <p>Total</p>
+          <p>{cartTotal}</p>
+        </div>
+        <div className="tackeBtn">
+          <button onClick={takeOrder}>Take My Money </button>
+        </div>
+      </div>
     </div>
   );
 }

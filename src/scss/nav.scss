@@ -1,0 +1,30 @@
+$brown: #2e2926;
+
+.sideNav {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: $brown;
+  transition: 0.5s;
+  .close-nav {
+    font-size: 2.5rem;
+    margin: 1rem;
+    color: white;
+  }
+}
+
+.nav-list {
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  a {
+    color: aliceblue;
+    font-size: 1.6rem;
+    text-decoration: none;
+    padding: 0.5rem;
+  }
+}

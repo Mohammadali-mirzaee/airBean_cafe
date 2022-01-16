@@ -2,7 +2,6 @@ const initState = {
   currentUser: {},
   cart: [],
   total: 0,
-  discount: 0,
   /*  menu: [], */
 };
 export const cafeReducer = (state = initState, action) => {
@@ -21,7 +20,6 @@ export const cafeReducer = (state = initState, action) => {
         currentUser: {},
         cart: [],
         total: 0,
-        discount: 0,
       };
 
     case 'ADD_TO_CART': {
@@ -90,47 +88,12 @@ export const cafeReducer = (state = initState, action) => {
         cart: remainingItems,
         total: newTotal,
       };
-    case 'CHECK_DISCOUNT':
-      let bryggkaffe = state.cart.find((item) => item.id === 1);
-      let bakelse = state.cart.find((item) => item.id === 7);
 
-      if (bryggkaffe && bakelse && bryggkaffe.quantity === bakelse.quantity) {
-        let discount = 21 * bryggkaffe.quantity;
-
-        return {
-          ...state,
-          cart: [...state.cart],
-          discount: discount,
-        };
-      }
-      if (bryggkaffe && bakelse && bryggkaffe.quantity > bakelse.quantity) {
-        let discount = 21 * bakelse.quantity;
-        return {
-          ...state,
-          cart: [...state.cart],
-          discount: discount,
-        };
-      }
-      if (bryggkaffe && bakelse && bryggkaffe.quantity < bakelse.quantity) {
-        let discount = 21 * bryggkaffe.quantity;
-        return {
-          ...state,
-          cart: [...state.cart],
-          discount: discount,
-        };
-      } else {
-        return {
-          ...state,
-          cart: [...state.cart],
-          discount: 0,
-        };
-      }
     case 'EMPTY_CART':
       return {
         ...state,
         cart: [],
         total: 0,
-        discount: 0,
       };
 
     default:

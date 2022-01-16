@@ -1,0 +1,28 @@
+$dark: #252c32;
+$brown: #5b4644;
+$coffee: #87624f;
+$tan: #dab7a3;
+$white: #f4e8da;
+$water: #859fb5;
+$orange: #e5674e;
+#status {
+  width: 100%;
+  height: 100vh;
+  background: $orange;
+  margin: 0;
+  padding: 0;
+}
+.status-cafe {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding-top: 30%;
+}
+.cool {
+  background: $white;
+  color: #252c32;
+  width: 45%;
+  font-size: large;
+}

@@ -13,11 +13,6 @@ function About() {
     return state.user;
   });
 
-  console.log(profile[0].user.length - 1);
-  const [name, setName] = useState();
-
-  setName(profile[0].user.length - 1);
-
   return (
     <div className="about">
       {openNav && <Navbar />}

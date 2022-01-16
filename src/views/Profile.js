@@ -1,10 +1,11 @@
-import './Profile.scss';
+import '../scss/Profile.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { logout } from '../redux/cafeAction';
 import * as dayjs from 'dayjs';
 import Navbar from '../components/Navbar';
+import MenuRounded from '@material-ui/icons/MenuRounded';
 
 function Profile() {
   const currentUser = useSelector((state) => {
@@ -14,7 +15,6 @@ function Profile() {
   let [history, setHistory] = useState([]);
   let [historyLoaded, setHistoryLoaded] = useState(false);
   let [totalSpent, setTotalSpent] = useState(0);
-  let [totalDiscounts, setTotalDiscounts] = useState(0);
   let [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
@@ -48,20 +48,6 @@ function Profile() {
     fetchHistory();
   }, [currentUser.userID]);
 
-  useEffect(() => {
-    function getDiscounts() {
-      let discounts = 0;
-      let discountedOrders = history.filter((order) => order.discount > 0);
-
-      for (let order of discountedOrders) {
-        discounts = discounts + order.discount;
-      }
-
-      setTotalDiscounts(discounts);
-    }
-    getDiscounts();
-  }, [history, setTotalDiscounts]);
-
   function logoutUser() {
     dispatch(logout());
     routeHistory('/');
@@ -70,60 +56,55 @@ function Profile() {
   function navOpen() {
     setOpenNav(!openNav);
   }
+  const navIcon = {
+    margin: '1rem',
+    color: 'white',
+  };
 
   return (
-    <div className="profile">
+    <div id="profile">
       {openNav && <Navbar />}
+      <MenuRounded style={navIcon} fontSize="large" onClick={navOpen} />
 
-      <svg
-        onClick={navOpen}
-        className="navicon"
-        width="48"
-        height="48"
-        viewBox="0 0 48 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle cx="24" cy="24" r="24" fill="white" />
-        <rect x="11" y="14" width="26" height="2" rx="1" fill="#222222" />
-        <rect x="11" y="23" width="26" height="2" rx="1" fill="#222222" />
-        <rect x="11" y="32" width="26" height="2" rx="1" fill="#222222" />
-      </svg>
-      <h1 className="username">{currentUser.fullname}</h1>
-      <p className="email">{currentUser.email}</p>
-      <button className="logout" onClick={logoutUser}>
-        Log out
-      </button>
+      <div className="avatar">
+        <div></div>
+        <h2 className="username">{currentUser.fullname}</h2>
+        <p className="email">{currentUser.email}</p>
+        <button className="logout" onClick={logoutUser}>
+          log out
+        </button>
+      </div>
 
       {historyLoaded && !loading && (
         <div className="order-history">
-          <h2>Order history</h2>
+          <h2>Order historik</h2>
           {history.map((item) => {
             return (
               <div key={item.orderNumber} className="order-container">
-                <p className="orderno">ORDER # {item.orderNumber}</p>
-                <p className="date">{dayjs(item.ETA).format('YYYY/MM/DD')}</p>
-                <p className="total">Total price</p>
-                <p className="price">{item.price} kr</p>
-                <div className="line"></div>
+                <div>
+                  <p>#{item.orderNumber}</p>
+                  <p>Total ordersumma </p>
+                </div>
+                <div>
+                  <p>{dayjs(item.ETA).format('YYYY/MM/DD')}</p>
+                  <p>
+                    {item.price}
+                    kr
+                  </p>
+                </div>
               </div>
             );
           })}
-          {totalDiscounts > 0 && (
-            <div className="discounts">
-              <p>Total discounts</p>
-              <p>- {totalDiscounts} kr</p>
-            </div>
-          )}
+
           <div className="total">
-            <p className="spent">Total spent</p>
-            <p className="grandtotal">{totalSpent - totalDiscounts} kr</p>
+            <h3>Totala spenderat</h3>
+            <p className="grandtotal">{totalSpent}kr</p>
           </div>
         </div>
       )}
       {!historyLoaded && !loading && (
         <div className="whoops">
-          <h3>Something went Wrong... please try again!</h3>
+          <h3>Något Gick Fel... Testa en gång till!</h3>
         </div>
       )}
       {loading && (

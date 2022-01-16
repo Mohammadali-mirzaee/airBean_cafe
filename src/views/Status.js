@@ -1,8 +1,9 @@
-import './Status.scss';
+import '../scss/Status.scss';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import * as dayjs from 'dayjs';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Status() {
   const currentUser = useSelector((state) => {
@@ -48,25 +49,17 @@ function Status() {
   };
 
   return (
-    <div className="order-status">
+    <div id="status">
       {!serverError && !loading && orderExists && (
-        <div className="main-content">
+        <div className="status-cafe">
           <div className="top">
             <p className="orderNumber">
               Order number <strong>#{latestOrder.orderNumber}</strong>
             </p>
             {status === 'Delivered' ? (
-              /*  <img
-                src={delivered}
-                alt="drone and coffee cup"
-                className="drone"
-              /> */
-
               <p>delivered</p>
             ) : (
-              <p>Wait</p>
-              /*               <img src={drone} alt="airbean drone" className="drone" />
-               */
+              <p>Waiting Time ...</p>
             )}
           </div>
           {status === 'Delivered' ? (
@@ -79,7 +72,7 @@ function Status() {
             </div>
           ) : (
             <div className="middle">
-              <h1>Your order is on the way!</h1>
+              <h2>Din order är på väg!</h2>
               <p>{status}</p>
             </div>
           )}
@@ -92,8 +85,6 @@ function Status() {
       {serverError && (
         <div className="whoops">
           <h3>Nothing to see here!</h3>
-          {/*           <img src={oops} alt="spilled coffee" />
-           */}{' '}
           <button className="cool" onClick={returnToNav}>
             Go back
           </button>
@@ -102,8 +93,7 @@ function Status() {
       {loading && (
         <div className="loading">
           <h2>Fetching order... hang tight...</h2>
-          {/*           <CircularProgress style={{ color: '#0e927d' }} />
-           */}{' '}
+          <CircularProgress style={{ color: '#0e927d' }} size="1rem" />
         </div>
       )}
     </div>
