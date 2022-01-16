@@ -1,0 +1,57 @@
+$brown: #2f2926;
+$darkGreen: #0e927d;
+$pink: #f3e4e1;
+$orange: #e5674e;
+
+.login {
+  background: $pink;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  margin: 10px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  justify-content: center;
+  margin-top: 20%;
+  label {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    font-size: 1rem;
+    padding-bottom: 0.4rem;
+  }
+  input {
+    height: 40px;
+    background-color: $pink;
+    border-radius: 0.3rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+  }
+  #gdpr {
+    position: absolute;
+    left: 5.5rem;
+    top: 28.6rem;
+  }
+
+  > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .loginBtn {
+    width: 60%;
+    height: 40px;
+    border-radius: 2rem;
+    background-color: $brown;
+    color: #f3e4e1;
+  }
+}
+
+.titleLogin {
+  font-weight: 700;
+}

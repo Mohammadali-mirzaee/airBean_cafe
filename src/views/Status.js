@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import * as dayjs from 'dayjs';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import drone from '../images/drone.png';
 function Status() {
   const currentUser = useSelector((state) => {
     return state.currentUser;
@@ -53,6 +53,7 @@ function Status() {
       {!serverError && !loading && orderExists && (
         <div className="status-cafe">
           <div className="top">
+            <img src={drone} alt="dronecafe" />
             <p className="orderNumber">
               Order number <strong>#{latestOrder.orderNumber}</strong>
             </p>

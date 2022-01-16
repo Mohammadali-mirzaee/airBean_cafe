@@ -1,5 +1,5 @@
 import '../scss/Cart.scss';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -42,6 +42,13 @@ function Cart() {
         userId: currentUser.userID,
       }),
     };
+    let orderArr = [];
+    for (let i = 0; i < cart.length; i++) {
+      for (let j = 0; j < cart[i].quantity; j++) {
+        orderArr.push(cart[i].id);
+      }
+    }
+    setOrderArray(orderArr);
     const response = await fetch(
       'http://localhost:5000/api/order',
       requestOptions

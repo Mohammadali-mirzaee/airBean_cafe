@@ -6,6 +6,7 @@ import { logout } from '../redux/cafeAction';
 import * as dayjs from 'dayjs';
 import Navbar from '../components/Navbar';
 import MenuRounded from '@material-ui/icons/MenuRounded';
+import user from '../images/user.png';
 
 function Profile() {
   const currentUser = useSelector((state) => {
@@ -67,7 +68,7 @@ function Profile() {
       <MenuRounded style={navIcon} fontSize="large" onClick={navOpen} />
 
       <div className="avatar">
-        <div></div>
+        <img src={user} alt="userIamge" />
         <h2 className="username">{currentUser.fullname}</h2>
         <p className="email">{currentUser.email}</p>
         <button className="logout" onClick={logoutUser}>
@@ -78,17 +79,17 @@ function Profile() {
       {historyLoaded && !loading && (
         <div className="order-history">
           <h2>Order historik</h2>
-          {history.map((item) => {
+          {history.map((items) => {
             return (
-              <div key={item.orderNumber} className="order-container">
+              <div key={items.orderNumber} className="order-container">
                 <div>
-                  <p>#{item.orderNumber}</p>
+                  <p>#{items.orderNumber}</p>
                   <p>Total ordersumma </p>
                 </div>
                 <div>
-                  <p>{dayjs(item.ETA).format('YYYY/MM/DD')}</p>
+                  <p>{dayjs(items.ETA).format('YYYY/MM/DD')}</p>
                   <p>
-                    {item.price}
+                    {items.price}
                     kr
                   </p>
                 </div>

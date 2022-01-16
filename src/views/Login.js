@@ -1,4 +1,4 @@
-import './Login.scss';
+import '../scss/Login.scss';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
@@ -102,47 +102,53 @@ function Login() {
             Genom att skapa ett konto nedan kan du spara och se din
             orderhistorik.
           </p>
-          <div className="login-form">
-            <form action="" onSubmit={userLogin}>
-              <label htmlFor="username">Username</label>
+
+          <form action="" onSubmit={userLogin}>
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              required
+              id="username"
+              name="username"
+              placeholder="Mohammadali"
+              onChange={handleUsername}
+            />
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              required
+              id="password"
+              name="password"
+              placeholder="123"
+              onChange={handlePassword}
+            />
+            <label htmlFor="gdpr">GDPR OK!</label>
+            <input type="checkbox" id="gdpr" required />
+            <div>
               <input
-                type="text"
-                required
-                id="username"
-                name="username"
-                placeholder="Mohammadali"
-                onChange={handleUsername}
+                type="submit"
+                className="loginBtn "
+                id="submit"
+                value="Log in!"
               />
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                required
-                id="password"
-                name="password"
-                placeholder="123"
-                onChange={handlePassword}
-              />
-              <label htmlFor="gdpr">GDPR OK!</label>
-              <input type="checkbox" id="gdpr" required />
-              <input type="submit" id="submit" value="Log in!" />
-            </form>
-            {isLoggedIn === false && (
-              <p className="errMsg">
-                Wrong username or password. Please try again.
-              </p>
-            )}
-            {serverError && (
-              <p className="errMsg">
-                opps! Something went wrong . Please try again.
-              </p>
-            )}
-            {loading && (
-              <p className="errMsg" style={{ color: '#0e927d' }}>
-                Logging in...{' '}
-                <CircularProgress style={{ color: '#0e927d' }} size="1rem" />
-              </p>
-            )}
-          </div>
+            </div>
+          </form>
+          {isLoggedIn === false && (
+            <p className="errMsg">
+              Wrong username or password. Please try again.
+            </p>
+          )}
+          {serverError && (
+            <p className="errMsg">
+              opps! Something went wrong . Please try again.
+            </p>
+          )}
+          {loading && (
+            <p className="errMsg" style={{ color: '#0e927d' }}>
+              Logging in...{' '}
+              <CircularProgress style={{ color: '#0e927d' }} size="1rem" />
+            </p>
+          )}
         </div>
       </div>
     </div>
